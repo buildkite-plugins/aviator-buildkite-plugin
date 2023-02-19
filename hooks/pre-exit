@@ -1,0 +1,37 @@
+#!/bin/bash
+set -euo pipefail
+
+API_KEY_ENV_NAME="${BUILDKITE_PLUGIN_AVIATOR_API_KEY_ENV_NAME:-AVIATOR_API_KEY}"
+FILES_PATTERN="${BUILDKITE_PLUGIN_AVIATOR_FILES:-}"
+
+API_KEY_VALUE="${!API_KEY_ENV_NAME:-}"
+
+if [ -z "${API_KEY_VALUE}" ]; then
+  echo "Missing $API_KEY_ENV_NAME environment variable"
+  exit 1
+fi
+
+matching_files=()
+while IFS=$'' read -r matching_file ; do
+  matching_files+=("$matching_file")
+done < <(find -L . -path "${FILES_PATTERN}")
+
+if [ "${#matching_files[@]}" -eq "0" ]; then
+  echo "No files found matching '${FILES_PATTERN}'"
+  if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-0}" -eq "0" ]; then
+    exit 1
+  else
+    echo 'Command already failed step, aborting without error to pass through the one from command'
+    exit 0
+  fi
+else
+  # shellcheck source=lib/upload.sh
+  source '../lib/upload.sh'
+  # needs to be part of else for bash4.3 compatibility
+  for file in "${matching_files[@]}"; do
+    echo "Uploading '$file'..."
+    if ! upload "$API_KEY_VALUE" "${file}"; then
+      echo 'Error uploading, will continue'
+    fi
+  done
+fi
