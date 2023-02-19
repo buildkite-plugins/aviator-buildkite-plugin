@@ -1,14 +1,17 @@
-name: Buildkite Plugin
-description: Exceptional functionality
+name: Aviator Test Uploader
+description: Uploads your JUnit files to Aviator
 author: https://github.com/buildkite-plugins
 requirements:
-  - bash
+  - curl
+  - zip
 configuration:
   properties:
-    mandatory:
+    api-key-env-name:
       type: string
-    optional:
+    api-url:
+      type: string
+    files:
       type: string
   required:
-    - mandatory
+    - files
   additionalProperties: false

@@ -1,6 +1,6 @@
-# Template Buildkite Plugin
+# [Aviator](https://aviator.co) Test Reporter Buildkite Plugin
 
-A Buildkite plugin for something awesome
+A Buildkite plugin for uploading JUnit files to [Aviator :plane:](https://aviator.co)
 
 ## Options
 
@@ -8,41 +8,65 @@ These are all the options available to configure this plugin's behaviour.
 
 ### Required
 
-#### `mandatory` (string)
+#### `files` (string)
 
-A great description of what this is supposed to do.
+Pattern of files to upload, relative to the checkout path (`./` will be added to it). May contain `*` to match any number of characters of any type (unlike shell expansions, it will match `/` and `.` if necessary).
 
 ### Optional
 
-#### `optional` (string)
+#### `api-key-env-name` (string)
 
-Describe how the plugin behaviour changes if this option is not specified, allowed values and its default.
+Name of the environment variable that contains the Aviator API token. Defaults to: `AVIATOR_API_KEY`
+
+#### `api-url` (string)
+
+Full URL for the API to upload to. Defaults to `https://upload.aviator.co/api/test-report-uploader`
 
 ## Examples
 
-Show how your plugin is to be used
+To upload all files from an XML folder from a build step:
 
 ```yaml
 steps:
-  - label: "🔨 Running plugin"
-    command: "echo template plugin"
+  - label: "🔨 Test"
+    command: "make test"
     plugins:
-      - template#v1.0.0:
-          mandatory: "value"
+      - aviator#v1.0.0:
+          files: "test/junit-*.xml"
 ```
 
-## And with other options as well
+### Upload a JSON file
 
-If you want to change the plugin behaviour:
+To upload a JSON file to Test Analytics from a build step:
 
 ```yaml
 steps:
-  - label: "🔨 Running plugin"
-    command: "echo template plugin with options"
+  - label: "🔨 Test"
+    command: "make test"
     plugins:
-      - template#v1.0.0:
-          mandatory: "value"
-          optional: "example"
+      - test-collector#v1.6.0:
+          files: "test-data-*.json"
+          format: "json"
+```
+
+### Using build artifacts
+
+You can also use build artifacts generated in a previous step:
+
+```yaml
+steps:
+  # Run tests and upload 
+  - label: "🔨 Test"
+    command: "make test --junit=tests-N.xml"
+    artifact_paths: "tests-*.xml"
+
+  - wait
+
+  - label: ":plane: Aviator"
+    command: buildkite-agent artifact download tests-*.xml
+    plugins:
+      - aviator#v1.0.0:
+          files: "tests-*.xml"
 ```
 
 ## ⚒ Developing
@@ -55,7 +79,7 @@ bk local run
 
 ## 👩‍💻 Contributing
 
-Your policy on how to contribute to the plugin!
+Bug reports and pull requests are welcome on GitHub at https://github.com/buildkite-plugins/aviator-buildkite-plugin
 
 ## 📜 License
 
