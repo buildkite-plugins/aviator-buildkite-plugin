@@ -30,11 +30,13 @@ if [ "${#matching_files[@]}" -eq "0" ]; then
     exit 0
   fi
 else
+  DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
   # shellcheck source=lib/upload.sh
-  source '../lib/upload.sh'
+  source "${DIR}/../lib/upload.sh"
+
   # needs to be part of else for bash4.3 compatibility
   for file in "${matching_files[@]}"; do
-    echo "Uploading '$file'..."
+    echo "Uploading ${file}..."
     if ! upload "$API_KEY_VALUE" "${file}"; then
       echo 'Error uploading, will continue'
     fi

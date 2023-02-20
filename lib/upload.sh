@@ -9,13 +9,13 @@ upload() {
     '--silent'
     '--show-error'
     '-H' 'Provider-Name: buildkite-plugin'
-    '-H' "Job-Name: ${BUILDKITE_LABEL}"
+    '-H' "Job-Name: ${BUILDKITE_LABEL:-aviator}"
     '-H' "Build-URL: ${BUILDKITE_BUILD_URL}"
     '-H' "Build-ID: ${BUILDKITE_BUILD_ID}"
     '-H' "Commit-SHA: ${BUILDKITE_COMMIT}"
     '-H' "Repo-Url: ${BUILDKITE_REPO}"
     '-H' "Branch-Name: ${BUILDKITE_BRANCH}"
-    '-H' 'Build-Status": "success"'  # TODO: make this customizable
+    '-H' 'Build-Status: success'  # TODO: make this customizable
     '-d' "@${FILE_TO_UPLOAD}"
   )
 
