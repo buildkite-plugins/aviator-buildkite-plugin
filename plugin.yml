@@ -1,0 +1,14 @@
+name: Buildkite Plugin
+description: Exceptional functionality
+author: https://github.com/buildkite-plugins
+requirements:
+  - bash
+configuration:
+  properties:
+    mandatory:
+      type: string
+    optional:
+      type: string
+  required:
+    - mandatory
+  additionalProperties: false

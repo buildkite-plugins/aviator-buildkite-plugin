@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+# shellcheck source=lib/plugin.bash
+. "$DIR/../lib/plugin.bash"
+
+MANDATORY_OPTION=$(plugin_read_config MANDATORY "")
+
+if [ -z "${MANDATORY_OPTION}" ]; then
+  echo 'Missing mandatory option in the plugin'
+  exit 1
+fi
+
+OPTIONAL_OPTION=$(plugin_read_config OPTIONAL "default")
+
+echo "Running plugin with options:"
+echo " - mandatory: ${MANDATORY_OPTION}"
+echo " - optional: ${OPTIONAL_OPTION}"
