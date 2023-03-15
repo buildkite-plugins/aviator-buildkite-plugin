@@ -7,8 +7,8 @@ steps:
 
   - label: ":sparkles: Lint"
     plugins:
-      - plugin-linter#v3.0.0:
-          id: ecr
+      - plugin-linter#v3.1.0:
+          id: aviator
 
   - label: ":shell: Shellcheck"
     plugins:
