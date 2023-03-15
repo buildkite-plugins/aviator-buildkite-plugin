@@ -23,12 +23,7 @@ done < <(find -L . -path "${FILES_PATTERN}")
 
 if [ "${#matching_files[@]}" -eq "0" ]; then
   echo "No files found matching '${FILES_PATTERN}'"
-  if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-0}" -eq "0" ]; then
-    exit 1
-  else
-    echo 'Command already failed step, aborting without error to pass through the one from command'
-    exit 0
-  fi
+  exit fail_if_command_ok()
 else
   DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
   # shellcheck source=lib/upload.sh
