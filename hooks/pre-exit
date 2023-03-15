@@ -20,6 +20,7 @@ fi
 DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 # shellcheck source=lib/upload.sh
 source "${DIR}/../lib/upload.sh"
+# shellcheck source=lib/plugin.bash
 source "${DIR}/../lib/plugin.bash"
 
 matching_files=()
