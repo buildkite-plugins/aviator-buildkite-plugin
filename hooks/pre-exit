@@ -24,16 +24,22 @@ done < <(find -L . -path "${FILES_PATTERN}")
 if [ "${#matching_files[@]}" -eq "0" ]; then
   echo "No files found matching '${FILES_PATTERN}'"
   exit fail_if_command_ok()
+elif [ "${#matching_files[@]}" -eq "1" ]; then
+  FILE_TO_UPLOAD="${matching_files[0]}"
 else
-  DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
-  # shellcheck source=lib/upload.sh
-  source "${DIR}/../lib/upload.sh"
+  echo "Multiple files found, compressing into single file"
+  zip aviator.zip "${matching_files[@]}"
 
-  # needs to be part of else for bash4.3 compatibility
-  for file in "${matching_files[@]}"; do
-    echo "Uploading ${file}..."
-    if ! upload "$API_KEY_VALUE" "${file}"; then
-      echo 'Error uploading, will continue'
-    fi
-  done
+  FILE_TO_UPLOAD=aviator.zip
+fi
+
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+# shellcheck source=lib/upload.sh
+source "${DIR}/../lib/upload.sh"
+
+# needs to be part of else for bash4.3 compatibility
+echo "Uploading ${FILE_TO_UPLOAD}..."
+if ! upload "$API_KEY_VALUE" "${FILE_TO_UPLOAD}"; then
+  echo 'Error uploading'
+  exit fail_if_command_ok()
 fi
