@@ -63,9 +63,9 @@ function plugin_read_config() {
 
 function fail_if_command_ok() {
   if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-0}" -eq "0" ]; then
-    return 1
+    exit 1
   else
     echo 'Command already failed step, aborting without error to pass through the one from command'
-    retur 0
+    exit 0
   fi
 }
