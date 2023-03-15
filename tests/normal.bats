@@ -47,37 +47,23 @@ setup() {
   unstub curl
 }
 
-@test 'Curl failure continues multiple upload' {
-  stub find 'echo file.xml; echo file-2.xml'
-  stub curl \
-    'exit 1' \
-    "echo Uploaded file \${22}"
-
-  run "${PWD}"/hooks/pre-exit
-
-  assert_success
-  assert_output --partial "Uploading file.xml"
-  assert_output --partial "Error uploading, will continue"
-  assert_output --partial "Uploading file-2.xml"
-
-  unstub find
-  unstub curl
-}
-
 @test 'Multiple file upload' {
   stub find 'echo file.xml; echo file-2.xml'
-  stub curl \
-    "echo Uploaded file \${22}" \
-    "echo Uploaded file \${22}"
+  stub curl "echo Uploaded file \${22}"
+
+  stub zip "echo -n Compressing into \$1':'; shift; echo ' '\$@"
 
   run "${PWD}"/hooks/pre-exit
 
   assert_success
-  assert_output --partial "Uploading file.xml"
-  assert_output --partial "Uploading file-2.xml"
+  assert_output --partial "Multiple files found"
+  assert_output --partial "compressing into single file"
+  refute_output --partial "Uploading file.xml"
+  refute_output --partial "Uploading file-2.xml"
 
   unstub find
   unstub curl
+  unstub zip
 }
 
 @test 'Can change API endpoint' {
