@@ -21,7 +21,7 @@ upload() {
 
   curl_args+=("${BUILDKITE_PLUGIN_AVIATOR_API_URL:-https://upload.aviator.co/api/test-report-uploader}")
   
-  curl_args+=("-H" "x-Aviator-Api-Key: '$API_KEY'")
+  curl_args+=("-H" "x-Aviator-Api-Key: ${API_KEY}")
 
   curl "${curl_args[@]}"
 }
