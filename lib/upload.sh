@@ -4,6 +4,12 @@ upload() {
   local API_KEY=$1
   local FILE_TO_UPLOAD="$2"
 
+  if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-0}" = "0" ]; then
+    BUILD_STATUS="${3:-success}"
+  else
+    BUILD_STATUS="${3:-failure}"
+  fi
+
   local curl_args=(
     '-X' 'POST'
     '--silent'
@@ -15,7 +21,7 @@ upload() {
     '-H' "Commit-SHA: ${BUILDKITE_COMMIT}"
     '-H' "Repo-Url: ${BUILDKITE_REPO}"
     '-H' "Branch-Name: ${BUILDKITE_BRANCH}"
-    '-H' 'Build-Status: success'  # TODO: make this customizable
+    '-H' "Build-Status: ${BUILD_STATUS}"
     '-F' "file[]=@${FILE_TO_UPLOAD}"
   )
 

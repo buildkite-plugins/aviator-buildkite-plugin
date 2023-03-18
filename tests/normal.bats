@@ -80,3 +80,37 @@ setup() {
   unstub find
   unstub curl
 }
+
+@test 'Step failure reports status as failure' {
+  export BUILDKITE_COMMAND_EXIT_STATUS=1
+
+  stub find 'echo file.xml'
+  stub curl "echo Uploaded file \${22} with \${20}"
+
+  run "${PWD}"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "Uploading file.xml"
+  assert_output --partial "Uploaded file file[]=@file.xml"
+  assert_output --partial "with Build-Status: failure"
+  
+  unstub find
+  unstub curl
+}
+
+@test 'Step OK reports status as success' {
+  export BUILDKITE_COMMAND_EXIT_STATUS=0
+
+  stub find 'echo file.xml'
+  stub curl "echo Uploaded file \${22} with \${20}"
+
+  run "${PWD}"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "Uploading file.xml"
+  assert_output --partial "Uploaded file file[]=@file.xml"
+  assert_output --partial "with Build-Status: success"
+
+  unstub find
+  unstub curl
+}
