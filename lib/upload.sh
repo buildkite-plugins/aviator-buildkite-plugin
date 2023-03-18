@@ -16,7 +16,7 @@ upload() {
     '-H' "Repo-Url: ${BUILDKITE_REPO}"
     '-H' "Branch-Name: ${BUILDKITE_BRANCH}"
     '-H' 'Build-Status: success'  # TODO: make this customizable
-    '-d' "@${FILE_TO_UPLOAD}"
+    '-F' "file[]=@${FILE_TO_UPLOAD}"
   )
 
   curl_args+=("${BUILDKITE_PLUGIN_AVIATOR_API_URL:-https://upload.aviator.co/api/test-report-uploader}")
