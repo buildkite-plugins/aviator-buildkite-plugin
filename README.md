@@ -35,20 +35,6 @@ steps:
           files: "test/junit-*.xml"
 ```
 
-### Upload a JSON file
-
-To upload a JSON file to Test Analytics from a build step:
-
-```yaml
-steps:
-  - label: "🔨 Test"
-    command: "make test"
-    plugins:
-      - test-collector#v1.6.0:
-          files: "test-data-*.json"
-          format: "json"
-```
-
 ### Using build artifacts
 
 You can also use build artifacts generated in a previous step:
