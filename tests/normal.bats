@@ -3,6 +3,7 @@
 # To debug stubs, you can use the following variables:
 # export CURL_STUB_DEBUG=/dev/tty
 # export FIND_STUB_DEBUG=/dev/tty
+# export ZIP_STUB_DEBUG=/dev/tty
 
 setup() {
   load "$BATS_PLUGIN_PATH/load.bash"
@@ -27,8 +28,7 @@ setup() {
 
   assert_success
   assert_output --partial "Uploading file.xml"
-  assert_output --partial "Uploaded file @file.xml"
-
+  assert_output --partial "Uploaded file file[]=@file.xml"
   unstub find
   unstub curl
 }
@@ -75,7 +75,7 @@ setup() {
   run "${PWD}"/hooks/pre-exit
 
   assert_success
-  assert_output --partial 'Uploaded @file.xml to https://example.com/upload'
+  assert_output --partial 'Uploaded file[]=@file.xml to https://example.com/upload'
 
   unstub find
   unstub curl

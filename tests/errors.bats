@@ -5,7 +5,7 @@ setup() {
 
   export MY_VAR='SECRET_VALUE'
   export BUILDKITE_PLUGIN_AVIATOR_API_KEY_ENV_NAME=MY_VAR
-  export BUILDKITE_PLUGIN_AVIATOR_FILES='*.xml'
+  export BUILDKITE_PLUGIN_AVIATOR_FILES='NON-EXISTING-FILES'
 }
 
 @test 'Missing default API key environment variable' {
