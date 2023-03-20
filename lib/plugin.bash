@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-PLUGIN_PREFIX="YOUR_PLUGIN_NAME"
+PLUGIN_PREFIX="AVIATOR"
 
 # Reads either a value or a list from the given env prefix
 function prefix_read_list() {
