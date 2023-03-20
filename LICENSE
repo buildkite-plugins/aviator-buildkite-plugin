@@ -1,10 +1,6 @@
 MIT License
 
-<<<<<<< HEAD
-Copyright (c) 2023 Buildkite Plugins
-=======
-Copyright (c) 2022 Buildkite
->>>>>>> e50f605 (Added documentation and plugin scaffolding of what we expect the plugin to be)
+Copyright (c) 2023 Buildkite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
