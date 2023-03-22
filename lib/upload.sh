@@ -14,7 +14,7 @@ upload() {
     '-X' 'POST'
     '--silent'
     '--show-error'
-    '-H' 'Provider-Name: buildkite-plugin'
+    '-H' 'Provider-Name: buildkite'
     '-H' "Job-Name: ${BUILDKITE_LABEL:-aviator}"
     '-H' "Build-URL: ${BUILDKITE_BUILD_URL}"
     '-H' "Build-ID: ${BUILDKITE_BUILD_ID}"
