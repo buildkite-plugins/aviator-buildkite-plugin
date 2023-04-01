@@ -22,6 +22,7 @@ upload() {
     '-H' "Repo-Url: ${BUILDKITE_REPO}"
     '-H' "Branch-Name: ${BUILDKITE_BRANCH}"
     '-H' "Build-Status: ${BUILD_STATUS}"
+    '-H' "Workflow-Name: ${BUILDKITE_PIPELINE_SLUG}"
     '-F' "file[]=@${FILE_TO_UPLOAD}"
   )
 
