@@ -13,6 +13,7 @@ setup() {
   export BUILDKITE_BUILD_ID='test'
   export BUILDKITE_BUILD_URL='https://localhost/build'
   export BUILDKITE_COMMIT='git-local'
+  export BUILDKITE_PIPELINE_SLUG='test-pipeline'
   export BUILDKITE_REPO='https://github.com/buildkite-plugins/aviator-buildkite-plugin'
 
   # Plugin variables
@@ -22,7 +23,7 @@ setup() {
 
 @test 'Single file upload' {
   stub find 'echo file.xml'
-  stub curl "echo Uploaded file \${22}"
+  stub curl "echo Uploaded file \${24}"
 
   run "${PWD}"/hooks/pre-exit
 
@@ -49,7 +50,7 @@ setup() {
 
 @test 'Multiple file upload' {
   stub find 'echo file.xml; echo file-2.xml'
-  stub curl "echo Uploaded file \${22}"
+  stub curl "echo Uploaded file \${24}"
 
   stub zip "echo -n Compressing into \$1':'; shift; echo ' '\$@"
 
@@ -70,7 +71,7 @@ setup() {
   export BUILDKITE_PLUGIN_AVIATOR_API_URL='https://example.com/upload'
 
   stub find 'echo file.xml'
-  stub curl "echo Uploaded \${22} to \${23}"
+  stub curl "echo Uploaded \${24} to \${25}"
 
   run "${PWD}"/hooks/pre-exit
 
@@ -85,7 +86,7 @@ setup() {
   export BUILDKITE_COMMAND_EXIT_STATUS=1
 
   stub find 'echo file.xml'
-  stub curl "echo Uploaded file \${22} with \${20}"
+  stub curl "echo Uploaded file \${24} with \${20}"
 
   run "${PWD}"/hooks/pre-exit
 
@@ -102,7 +103,7 @@ setup() {
   export BUILDKITE_COMMAND_EXIT_STATUS=0
 
   stub find 'echo file.xml'
-  stub curl "echo Uploaded file \${22} with \${20}"
+  stub curl "echo Uploaded file \${24} with \${20}"
 
   run "${PWD}"/hooks/pre-exit
 
