@@ -13,7 +13,7 @@ setup() {
   run "${PWD}"/hooks/pre-exit
 
   assert_failure
-  assert_output --partial 'Missing AVIATOR_API_KEY environment variable'
+  assert_output --partial 'Missing AVIATOR_API_TOKEN environment variable'
 }
 
 @test 'Missing custom API key environment variable' {

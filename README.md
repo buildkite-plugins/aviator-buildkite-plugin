@@ -16,7 +16,7 @@ Pattern of files to upload, relative to the checkout path (`./` will be added to
 
 #### `api-key-env-name` (string)
 
-Name of the environment variable that contains the Aviator API token. Defaults to: `AVIATOR_API_KEY`
+Name of the environment variable that contains the Aviator API token. Defaults to: `AVIATOR_API_TOKEN`
 
 #### `api-url` (string)
 

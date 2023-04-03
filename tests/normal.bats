@@ -17,7 +17,7 @@ setup() {
   export BUILDKITE_REPO='https://github.com/buildkite-plugins/aviator-buildkite-plugin'
 
   # Plugin variables
-  export AVIATOR_API_KEY='SECRET_VALUE'
+  export AVIATOR_API_TOKEN='SECRET_VALUE'
   export BUILDKITE_PLUGIN_AVIATOR_FILES='*.xml'
 }
 
