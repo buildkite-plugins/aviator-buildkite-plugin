@@ -1,0 +1,47 @@
+#!/bin/bash
+set -euo pipefail
+
+API_KEY_ENV_NAME="${BUILDKITE_PLUGIN_AVIATOR_API_KEY_ENV_NAME:-AVIATOR_API_TOKEN}"
+FILES_PATTERN="${BUILDKITE_PLUGIN_AVIATOR_FILES:-}"
+
+API_KEY_VALUE="${!API_KEY_ENV_NAME:-}"
+
+if [ -z "${API_KEY_VALUE}" ]; then
+  echo "Missing $API_KEY_ENV_NAME environment variable"
+  exit 1
+fi
+
+if [ -z "${FILES_PATTERN}" ]; then
+  echo "Missing configuration for files to search for"
+  exit 1
+fi
+
+
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+# shellcheck source=lib/upload.sh
+source "${DIR}/../lib/upload.sh"
+# shellcheck source=lib/plugin.bash
+source "${DIR}/../lib/plugin.bash"
+
+matching_files=()
+while IFS=$'' read -r matching_file ; do
+  matching_files+=("$matching_file")
+done < <(find -L . -path "./${FILES_PATTERN}")
+
+if [ "${#matching_files[@]}" -eq "0" ]; then
+  echo "No files found matching '${FILES_PATTERN}'"
+  fail_if_command_ok
+elif [ "${#matching_files[@]}" -eq "1" ]; then
+  FILE_TO_UPLOAD="${matching_files[0]}"
+else
+  echo "Multiple files found, compressing into single file"
+  zip aviator.zip "${matching_files[@]}"
+
+  FILE_TO_UPLOAD=aviator.zip
+fi
+
+# needs to be part of else for bash4.3 compatibility
+echo "Uploading ${FILE_TO_UPLOAD}..."
+if ! upload "$API_KEY_VALUE" "${FILE_TO_UPLOAD}"; then
+  echo 'Error uploading, will continue'
+fi

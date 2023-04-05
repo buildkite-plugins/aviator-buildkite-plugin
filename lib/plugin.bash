@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-PLUGIN_PREFIX="YOUR_PLUGIN_NAME"
+PLUGIN_PREFIX="AVIATOR"
 
 # Reads either a value or a list from the given env prefix
 function prefix_read_list() {
@@ -59,4 +59,13 @@ function plugin_read_config() {
   local var="BUILDKITE_PLUGIN_${PLUGIN_PREFIX}_${1}"
   local default="${2:-}"
   echo "${!var:-$default}"
+}
+
+function fail_if_command_ok() {
+  if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-0}" -eq "0" ]; then
+    exit 1
+  else
+    echo 'Command already failed step, aborting without error to pass through the one from command'
+    exit 0
+  fi
 }
