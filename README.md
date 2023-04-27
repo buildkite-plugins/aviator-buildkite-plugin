@@ -1,6 +1,6 @@
 # [Aviator](https://aviator.co) Test Reporter Buildkite Plugin
 
-A Buildkite plugin for uploading JUnit files to [Aviator :plane:](https://aviator.co)
+A Buildkite plugin for uploading JUnit files to [Aviator 🛩️](https://aviator.co)
 
 ## Options
 
