@@ -1,4 +1,4 @@
-# [Aviator](https://aviator.co) Test Reporter Buildkite Plugin
+# [Aviator](https://aviator.co) Test Reporter Buildkite Plugin  [![Build status](https://badge.buildkite.com/3c8240ed7c59b5edbf1604481793fb7c561ccf07c7020a6821.svg)](https://buildkite.com/buildkite/airplane-plugins-aviator)
 
 A Buildkite plugin for uploading JUnit files to [Aviator 🛩️](https://aviator.co)
 
